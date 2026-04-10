@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbita Médica - Inicio</title>
+
+    <link rel="stylesheet" href="estilos/estilo.css">
+
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="theme-color" content="#6396ff">
+
+</head>
+<body>
+
+    <header id="main-header"></header>
+
+    <section class="hero">
+        <video autoplay muted loop playsinline class="video-bg" poster="./imgs/portadaHomeVideo.webp">
+            <source src="video/videoHome.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+
+        <div class="overlay"></div>
+
+        <div class="hero-content">
+            <img src="./imgs/logoHome.webp" alt="logoHome">
+            <a href="quienessomos.html" class="btn-primary">Descubrir Más</a>
+        </div>
+    </section>
+
+    <section class="section-padding home-about">
+        <div class="container grid-home">
+            <div class="text-col reveal">
+                <span class="tag">Nuestro ADN</span>
+                <h2>Conocimiento médico en una nueva dimensión</h2>
+                <p>Órbita Médica es mucho más que un podcast. Es un espacio donde la ciencia y la cercanía convergen para transformar la manera en que entendemos la salud.</p>
+                <a href="quienessomos.html" class="btn-secondary">Conoce Nuestra Historia</a>
+            </div>
+            <div class="img-col reveal">
+                <img src="./imgs/homeAbout.webp" alt="Equipo Orbita Médica">
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding home-investment">
+        <div class="container grid-home reverse-mobile">
+            <div class="img-col reveal">
+                <img src="./imgs/bannerInversion.webp" alt="Grabación en estudio">
+            </div>
+            <div class="text-col reveal">
+                <span class="tag">Para Especialistas</span>
+                <h2>Potencia tu marca personal</h2>
+                <p>Participar en Órbita Médica no es solo una entrevista, es una inversión estratégica. Posiciónate como referente en tu especialidad y llega a miles de personas ávidas de conocimiento.</p>
+                <a href="inversioninteligente.html" class="btn-secondary">Conoce la Propuesta</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-booking" style="background-image: url('./imgs/portadaReserva.webp');">
+        <div class="overlay-dark"></div>
+        <div class="booking-content">
+            <h2 class="reveal">Lleva tu mensaje más lejos</h2>
+            <p class="reveal">Tu audiencia te está esperando. Agenda tu espacio hoy mismo y comparte tu experiencia con el mundo.</p>
+            <a href="reservafecha.html" class="btn-primary reveal">Reservar Ahora</a>
+        </div>
+    </section>
+
+
+
+    <footer id="main-footer"></footer>
+
+    <script src="javascript/app.js"></script>
+</body>
+</html>
+
