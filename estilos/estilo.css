@@ -1,0 +1,1200 @@
+/* =========================================
+   1. VARIABLES Y FUENTES
+========================================= */
+:root {
+    --color-primario: #6396FF;
+    --color-blanco: #FFFFFF;
+    --color-negro: #000000;
+}
+
+@font-face {
+    font-family: 'TTRegular';
+    src: url('../fonts/TTRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TTMedium';
+    src: url('../fonts/TTMedium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TTBold';
+    src: url('../fonts/TTBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* =========================================
+   2. ESTILOS GENERALES (RESET)
+========================================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-blanco);
+    color: var(--color-negro);
+    font-family: 'TTRegular', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'TTBold', sans-serif;
+    margin-top: 0;
+}
+
+/* =========================================
+ANIMACIONES SCROLL REVEAL
+========================================= */
+
+/* Estado inicial (invisible y abajo) */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px); /* Se mueve 50px para abajo */
+    transition: all 0.8s ease-out; /* La magia: suavidad de 0.8 segundos */
+    will-change: opacity, transform; /* Optimización para el navegador */
+}
+
+/* Estado activo (visible y en su lugar) */
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/*-------------------------------- Scroll Bar --------------------------------*/
+/* Works on Firefox */
+* {
+    scrollbar-width:thin;
+    scrollbar-color: var(--color-primario) var(--color-blanco);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--color-blanco);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--color-primario);
+    border-radius: 0px;
+    border: 0px solid var(--color-blanco);
+}
+
+.reveal-home {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    will-change: opacity, transform;
+}
+
+.reveal-home.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    will-change: opacity, transform;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   3. HEADER Y NAVEGACIÓN
+========================================= */
+header {
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.4s ease;
+}
+
+/* Logo Principal (Izquierda) */
+.logo img {
+    height: 50px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); /* Sombra para resaltar sobre el video */
+    display: block;
+    transition: all 0.3s ease;
+}
+
+/* Contenedor del Menú */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Espacio entre enlaces */
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+/* Enlaces del Menú (Texto) */
+nav a {
+    text-decoration: none;
+    color: var(--color-blanco);
+    font-family: 'TTBold', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra para lectura */
+    display: flex;
+    align-items: center;
+    position: relative; /* Necesario para posicionar la línea del active */
+}
+
+/* Efecto Hover */
+nav a:hover {
+    color: var(--color-primario);
+}
+
+/* --- ESTADO ACTIVE (Página Actual) --- */
+nav a.active {
+    color: var(--color-primario) !important; /* Mantiene el azul */
+}
+
+/* Línea azul debajo del enlace activo */
+nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; /* Distancia del texto */
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-primario);
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(99, 150, 255, 0.5);
+}
+
+/* --- EXCEPCIÓN: LOGO DE YOUTUBE --- */
+/* Icono de YouTube */
+nav a img {
+    height: 30px;
+    width: auto;
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+/* Hover en YouTube */
+nav a:hover img {
+    transform: scale(1.1);
+}
+
+/* Evitar que salga la línea azul debajo del logo de YouTube si está activo */
+nav ul li:last-child a.active::after {
+    display: none;
+}
+
+/* Separador vertical antes de YouTube */
+nav ul li:last-child {
+    margin-left: 10px;
+    padding-left: 25px;
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+/* =========================================
+   4. BOTÓN HAMBURGUESA (ESTILOS BASE)
+========================================= */
+.menu-toggle {
+    display: none; /* Oculto en escritorio */
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.menu-toggle .bar {
+    width: 30px;
+    height: 3px;
+    background-color: var(--color-blanco);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* =========================================
+   5. ESTADO SCROLLED (HEADER BLANCO)
+========================================= */
+header.scrolled {
+    background-color: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 0.8rem 5%;
+}
+
+/* Enlaces de texto se vuelven negros */
+header.scrolled nav a {
+    color: var(--color-negro);
+    text-shadow: none;
+}
+
+/* Mantener azul al pasar mouse o si está activo */
+header.scrolled nav a:hover,
+header.scrolled nav a.active {
+    color: var(--color-primario);
+}
+
+/* Línea separadora se oscurece */
+header.scrolled nav ul li:last-child {
+    border-left: 1px solid rgba(0, 0, 0, 0.2); 
+}
+
+/* --- CAMBIO DE COLOR EN LOGOS AL BAJAR --- */
+
+/* 1. Logo Orbita Médica: Invierte (Blanco -> Negro) */
+header.scrolled .logo img {
+    filter: invert(1); 
+}
+
+/* 2. Logo YouTube: Se fuerza a NEGRO PURO */
+header.scrolled nav a img {
+    filter: brightness(0); 
+}
+
+/* Color de las barras de hamburguesa en modo Scrolled */
+header.scrolled .menu-toggle .bar {
+    background-color: var(--color-negro);
+}
+
+
+
+/* =========================================
+   6. HERO SECTION
+========================================= */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    color: var(--color-blanco);
+    margin-top: 0; 
+}
+
+.video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 1.5s ease-out;
+}
+
+.hero-content img {
+    width: 60%;
+    max-width: 673px;
+    height: auto;
+    margin-bottom: 40px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+}
+
+/* =========================================
+   7. BOTONES Y OTROS
+========================================= */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 50px;
+    font-family: 'TTBold', sans-serif;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(99, 150, 255, 0.4);
+}
+
+.btn-primary:hover {
+    background-color: #4a7ecc;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(99, 150, 255, 0.6);
+}
+
+.intro {
+    padding: 5rem 10%;
+    text-align: center;
+    background-color: var(--color-blanco);
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* =========================================
+   FOOTER
+========================================= */
+footer {
+    background-color: var(--color-negro);
+    color: var(--color-blanco);
+    padding: 50px 5% 20px; /* Más espacio arriba */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor superior (Logo Izq - Iconos Der) */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Línea divisoria sutil */
+    padding-bottom: 30px;
+    margin-bottom: 20px;
+}
+
+/* 1. Logo Footer */
+.footer-logo img {
+    height: 40px; /* Un poco más grande que en el nav */
+    width: auto;
+    filter: brightness(0) invert(1); /* FUERZA EL LOGO A SER BLANCO */
+    opacity: 0.9;
+}
+
+/* 2. Iconos Redes Sociales */
+.social-links {
+    display: flex;
+    gap: 20px; /* Espacio entre iconos */
+}
+
+.social-links a {
+    color: var(--color-blanco);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Opcional: Círculo alrededor al pasar mouse */
+    transition: all 0.3s ease;
+}
+
+/* Estilo de los SVGs (Iconos) */
+.social-links svg {
+    fill: currentColor; /* El icono toma el color del texto */
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+/* Efecto Hover (Pasar mouse) */
+.social-links a:hover {
+    color: var(--color-primario); /* Se vuelven azules */
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo suave */
+    transform: translateY(-3px); /* Flotan un poco */
+}
+
+/* 3. Copyright */
+.footer-copy {
+    text-align: center;
+}
+
+.footer-copy p {
+    font-size: 0.9rem;
+    color: #888; /* Gris claro para que no distraiga */
+    margin: 0;
+}
+
+/* RESPONSIVE FOOTER (Para móviles) */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column; /* Uno debajo del otro */
+        gap: 30px;
+        text-align: center;
+    }
+    
+    .social-links {
+        justify-content: center; /* Centrar iconos */
+    }
+}
+
+/* =========================================
+   8. RESPONSIVE (MÓVILES Y TABLETS)
+========================================= */
+@media (max-width: 1100px) {
+    
+    /* 1. Botón Hamburguesa */
+    .menu-toggle {
+        display: flex; 
+        z-index: 2000;
+        margin-left: auto;
+    }
+
+    /* Animación de Hamburguesa a X */
+    .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); background-color: var(--color-negro);}
+    .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background-color: var(--color-negro);}
+
+    /* 2. Menú Desplegable (Contenedor) */
+    nav {
+        position: absolute;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--color-blanco);
+        
+        /* Centrado Flex */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        transition: right 0.4s ease;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    /* 3. La Lista de Enlaces */
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 0;
+    }
+
+    nav ul li {
+        margin: 20px 0;
+        filter: none;
+        opacity: 1;
+        width: 100%;
+        text-align: center; /* Alinea horizontalmente los elementos hijos (inline-flex) */
+    }
+
+    nav a {
+        color: var(--color-negro);
+        font-size: 1.2rem;
+        text-shadow: none;
+        
+        /* --- CORRECCIÓN CLAVE --- */
+        display: inline-flex; /* El ancho se ajusta al contenido (texto) */
+        justify-content: center;
+        /* ------------------------ */
+    }
+
+    /* Ajuste de la línea azul en móvil (opcional: hacerla un poco más gruesa o pegada) */
+    nav a.active::after {
+        bottom: -4px; /* Un poco más cerca del texto en móvil */
+    }
+
+    /* 4. Logo de YouTube en Móvil (NEGRO PURO) */
+    nav a img {
+        filter: brightness(0);
+    }
+    
+    nav a:hover img {
+        transform: scale(1.1);
+    }
+
+    /* 5. Ajuste del separador en móvil */
+    nav ul li:last-child {
+        border-left: none !important;
+        border-top: 1px solid #eee;
+        padding-left: 0;
+        padding-top: 40px;
+        margin-left: 0;
+        display: flex;
+        justify-content: center;
+        width: 50%;
+        margin: 0 auto;
+        filter: none;
+    }
+
+    /* 6. Ajustes del Logo Hero en móviles */
+    .hero-content img {
+        width: 90%;
+        max-width: 350px;
+        margin-bottom: 30px;
+    }
+}
+
+
+
+
+/* =========================================
+ESTILOS PÁGINAS INTERNAS (Quiénes Somos)
+========================================= */
+
+/* Hero Interno (Más corto que el Home) */
+.hero-internal {
+    position: relative;
+    width: 100%;
+    height: 50vh; /* Altura media pantalla */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-blanco);
+    margin-top: 0;
+    background-color: #1a1a1a; /* Fondo de respaldo si falla la imagen */
+}
+
+/* Gradiente oscuro para el Hero Interno */
+.hero-internal .overlay {
+    /* Esto crea un degradado vertical: */
+    /* Arriba: Negro al 40% (se ve la imagen) */
+    /* Abajo: Negro al 90% (se oscurece para fusionarse con el contenido) */
+    background: linear-gradient(to top, hsla(0, 0%, 0%, 0.2) 0%, rgba(0, 0, 0, 0.75) 100%);
+    
+    /* Aseguramos que cubra todo */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Detrás del texto, delante de la imagen */
+}
+
+.hero-internal-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+.hero-internal-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+.hero-internal-content p {
+    font-size: 1.3rem;
+    font-family: 'TTMedium', sans-serif;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+}
+
+/* Contenedor de Texto General */
+.section-padding {
+    padding: 80px 10%;
+}
+
+.container-text {
+    max-width: 800px;
+    margin: 0 auto; /* Centrado horizontal */
+}
+
+/* Sección 1: El Origen */
+.about-origin {
+    background-color: var(--color-blanco);
+    text-align: center; /* Texto centrado para narrativa */
+    animation: fadeIn 1s ease-out;
+}
+
+.about-origin h2 {
+    font-size: 2.5rem;
+    color: var(--color-primario);
+    margin-bottom: 30px;
+}
+
+.about-origin p {
+    font-size: 1.15rem;
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+/* Sección 2: Audiencia (Fondo diferente) */
+.about-audience {
+    background-color: #f8faff; /* Un azul muy muy clarito */
+    border-top: 1px solid #eef2f9;
+}
+
+.about-audience h2 {
+    font-size: 2.5rem;
+    color: var(--color-negro);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.about-audience p {
+    font-size: 1.15rem;
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    text-align: justify; /* Justificado para lectura densa */
+}
+
+/* Caja destacada dentro de Audiencia */
+.highlight-box {
+    background-color: var(--color-blanco);
+    border-left: 5px solid var(--color-primario); /* Línea azul a la izquierda */
+    padding: 30px;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-top: 30px;
+}
+
+.highlight-box p {
+    margin: 0;
+    font-family: 'TTMedium', sans-serif;
+    color: var(--color-negro);
+    font-style: italic;
+}
+
+/* Call to Action (CTA) al final */
+.cta-section {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.cta-section h2 {
+    color: var(--color-blanco);
+    margin-bottom: 30px;
+}
+
+.cta-section .btn-primary {
+    background-color: var(--color-blanco);
+    color: var(--color-primario);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.cta-section .btn-primary:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-3px);
+}
+
+/* RESPONSIVE AJUSTES */
+@media (max-width: 768px) {
+    .hero-internal {
+        height: 40vh;
+    }
+    
+    .hero-internal-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .section-padding {
+        padding: 50px 5%;
+    }
+    
+    .about-audience p {
+        text-align: left; /* En móvil mejor alineado a la izquierda */
+    }
+}
+
+
+/* =========================================
+   ESTILOS INVERSIÓN INTELIGENTE
+========================================= */
+
+/* =========================================
+   HERO ESPECÍFICO: INVERSIÓN INTELIGENTE
+========================================= */
+
+/* Esta clase sobreescribe los valores de .hero-internal solo en esta página */
+.hero-inversion {
+    height: 50vh; /* Ejemplo: Hacerlo más alto o más bajo (el default era 50vh) */
+    background-position: center top; /* Ejemplo: Enfocar la parte de arriba de la foto */
+}
+
+/* Si quieres que el texto sea más grande solo aquí */
+/* .hero-inversion h1 {
+    font-size: 3.5rem; 
+} */
+
+/* Texto destacado de introducción */
+.lead-text {
+    font-size: 1.3rem !important;
+    color: var(--color-negro) !important;
+    font-weight: 500;
+}
+
+.investment-intro h2 {
+    font-size: 2.5rem;
+    color: var(--color-primario);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.investment-intro p {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+/* Sección de Beneficios (Fondo Oscuro para contraste) */
+.benefits-section {
+    background-color: #f4f7fc;
+}
+
+.text-center {
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--color-negro);
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Tarjetas de Beneficio */
+.benefit-card {
+    background: var(--color-blanco);
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border-bottom: 4px solid transparent; /* Borde invisible abajo */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.benefit-card:hover {
+    transform: translateY(-10px);
+    border-bottom: 4px solid var(--color-primario); /* Aparece línea azul al flotar */
+    box-shadow: 0 15px 40px rgba(99, 150, 255, 0.2);
+}
+
+.benefit-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    /* Efecto sutil de fondo en el icono */
+    background: linear-gradient(135deg, #eef2ff 0%, #ffffff 100%);
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.benefit-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: var(--color-negro);
+}
+
+.benefit-card p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Ajuste responsive para los textos */
+@media (max-width: 768px) {
+    .investment-intro h2 {
+        font-size: 2rem;
+    }
+    
+    .lead-text {
+        font-size: 1.1rem !important;
+    }
+}
+
+
+/* =========================================
+   BANNER DE IMAGEN (Separa secciones)
+========================================= */
+.full-width-banner {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0; /* Elimina espacios blancos fantasma debajo de la imagen */
+}
+
+.full-width-banner img {
+    width: 100%;
+    height: 80vh; /* Altura fija para que parezca un banner profesional */
+    object-fit: cover; /* IMPORTANTE: Recorta la imagen para llenar el hueco sin estirarse */
+    object-position: center; /* Centra la imagen */
+    display: block;
+    /* Opcional: Un filtro para que no brille tanto si la foto es muy clara */
+    filter: brightness(0.9); 
+    transition: transform 0.5s ease;
+}
+
+/* Efecto suave: la imagen se acerca un poquito al pasar el mouse */
+.full-width-banner:hover img {
+    transform: scale(1.02);
+}
+
+/* Ajuste para móviles */
+@media (max-width: 768px) {
+    .full-width-banner img {
+        height: 60vh;
+    }
+}
+
+
+
+
+
+/* =========================================
+   PÁGINA DE CONTACTO / RESERVA
+========================================= */
+
+.contact-section {
+    /* background-color: #f9faff; */
+    background-position: center;
+    background-size: cover;
+}
+
+/* Grid layout: Izquierda Info | Derecha Formulario */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* El formulario un poco más ancho */
+    gap: 60px;
+    align-items: start;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* --- Columna Izquierda: Info --- */
+.contact-info h2 {
+    font-size: 2.2rem;
+    color: var(--color-primario);
+    margin-bottom: 20px;
+}
+
+.contact-info p {
+    color: #555;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    margin-top: 0px;
+}
+
+.contact-details {
+    margin-top: 40px;
+}
+
+.detail-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+.detail-item a {
+    color: var(--color-negro);
+    text-decoration: none;
+}
+
+.detail-item a:hover{
+    color: var(--color-primario);
+}
+
+.detail-item .icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* --- Columna Derecha: Formulario --- */
+.form-wrapper {
+    background-color: var(--color-blanco);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08); /* Sombra elegante */
+}
+
+.booking-form .form-group {
+    margin-bottom: 20px;
+}
+
+.booking-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: 'TTBold', sans-serif;
+    color: var(--color-negro);
+    font-size: 0.95rem;
+}
+
+.booking-form input,
+.booking-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'TTRegular', sans-serif;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fcfcfc;
+}
+
+.booking-form input:focus,
+.booking-form textarea:focus {
+    border-color: var(--color-primario);
+    background-color: #fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 150, 255, 0.1);
+}
+
+.booking-form textarea {
+    resize: vertical; /* Permite estirar solo hacia abajo */
+}
+
+/* Fila doble (Teléfono y Correo) */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.btn-block {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+/* RESPONSIVE FORMULARIO */
+@media (max-width: 850px) {
+    .contact-grid {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+        gap: 40px;
+    }
+
+    .form-wrapper {
+        padding: 25px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr; /* Inputs uno debajo del otro */
+        gap: 0;
+    }
+}
+
+
+/* =========================================
+   BANNER INFERIOR (PEGADO AL FOOTER)
+========================================= */
+.bottom-banner {
+    width: 100%;
+    margin: 0;      /* Cero márgenes para pegar con lo de arriba y abajo */
+    padding: 0;
+    line-height: 0; /* ELIMINA la línea blanca fantasma debajo de la imagen */
+    overflow: hidden;
+}
+
+.bottom-banner img {
+    width: 100%;
+    height: 350px;  /* Ajusta esta altura a tu gusto */
+    object-fit: contain; /* Recorta la imagen para llenar el ancho sin deformarse */
+    object-position: center;
+    display: block; /* Asegura que se comporte como bloque y toque el footer */
+}
+
+/* Ajuste para móviles */
+@media (max-width: 768px) {
+    .bottom-banner img {
+        height: 200px; /* Más bajita en celular */
+    }
+}
+
+
+/* =========================================
+   SECCIONES DEL HOME (NUEVO)
+========================================= */
+
+/* Estilos Generales del Grid (2 Columnas) */
+.grid-home {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Mitad y mitad */
+    gap: 60px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Columna de Texto */
+.text-col h2 {
+    font-size: 2.5rem;
+    color: var(--color-negro);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.text-col p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Etiqueta pequeña arriba del título */
+.tag {
+    display: inline-block;
+    background-color: #eff4ff; /* Azul muy clarito */
+    color: var(--color-primario);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-family: 'TTBold', sans-serif;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Columna de Imagen */
+.img-col{
+    height: 100%;
+}
+
+.img-col img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-col img:hover {
+    transform: scale(1.02); /* Efecto zoom suave */
+}
+
+/* Botón Secundario (Borde Azul) */
+.btn-secondary {
+    display: inline-block;
+    border: 2px solid var(--color-primario);
+    color: var(--color-primario);
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'TTBold', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+/* Sección Inversión (Fondo gris suave para diferenciar) */
+.home-investment {
+    background-color: #f9faff;
+}
+
+/* Sección Reserva (Banner Final) */
+.home-booking {
+    position: relative;
+    padding: 100px 20px;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    color: var(--color-blanco);
+    background-color: #111; /* Color de respaldo */
+}
+
+.overlay-dark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7); /* Oscurece la imagen de fondo */
+    z-index: 1;
+}
+
+.booking-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.booking-content h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: var(--color-blanco);
+}
+
+.booking-content p {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+/* RESPONSIVE HOME */
+@media (max-width: 900px) {
+    .grid-home {
+        grid-template-columns: 1fr; /* Una columna */
+        gap: 40px;
+        text-align: center;
+    }
+
+    /* Ordenar en móvil: Imagen arriba, texto abajo */
+    .reverse-mobile {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .text-col h2 {
+        font-size: 2rem;
+    }
+    
+    .booking-content h2 {
+        font-size: 2.2rem;
+    }
+}
